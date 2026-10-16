@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { LayoutGrid, LogOut, Plus, Search, Bot } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { COLUMNS, tasksQuery, type Status, type Task } from "@/lib/tasks";
+import { COLUMNS, COLUMN_ACCENT, tasksQuery, type Status, type Task } from "@/lib/tasks";
 import { Logo } from "@/components/Logo";
 import { TaskCard } from "@/components/board/TaskCard";
 import { TaskDialog, type TaskDraft } from "@/components/board/TaskDialog";
@@ -25,7 +25,6 @@ export const Route = createFileRoute("/_authenticated/board")({
   component: BoardPage,
 });
 
-const DOT: Record<Status, string> = { todo: "bg-muted-foreground", in_progress: "bg-primary", done: "bg-tag-green" };
 
 function BoardPage() {
   const { user } = Route.useRouteContext();
@@ -115,7 +114,7 @@ function BoardPage() {
         <div className="mt-8 space-y-3 rounded-2xl bg-column p-4">
           {COLUMNS.map((c) => (
             <div key={c.id} className="flex items-center justify-between text-sm">
-              <span className="flex items-center gap-2 text-muted-foreground"><span className={`h-2 w-2 rounded-full ${DOT[c.id]}`} />{c.title}</span>
+              <span className="flex items-center gap-2 text-muted-foreground"><span className={`h-2 w-2 rounded-full ${COLUMN_ACCENT[c.id].dot}`} />{c.title}</span>
               <span className="font-semibold">{tasks.filter((t) => t.status === c.id).length}</span>
             </div>
           ))}
@@ -179,6 +178,7 @@ function BoardPage() {
               >
                 <div className="mb-3 flex items-center justify-between px-1.5">
                   <h2 className="flex items-center gap-2 font-display text-lg font-semibold">
+                    <span className={`h-2.5 w-2.5 rounded-full ${COLUMN_ACCENT[col.id].dot}`} />
                     {col.title} <span className="font-sans text-base font-normal text-muted-foreground">{items.length}</span>
                   </h2>
                   <button onClick={() => setDialog({ open: true, task: null, status: col.id })} className="rounded-lg p-1.5 text-muted-foreground hover:bg-card hover:text-foreground">

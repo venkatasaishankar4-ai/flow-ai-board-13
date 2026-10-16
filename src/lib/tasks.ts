@@ -12,6 +12,12 @@ export const COLUMNS: { id: Status; title: string }[] = [
   { id: "done", title: "Done" },
 ];
 
+export const COLUMN_ACCENT: Record<Status, { dot: string; text: string }> = {
+  todo: { dot: "bg-tag-orange", text: "text-tag-orange" },
+  in_progress: { dot: "bg-tag-blue", text: "text-tag-blue" },
+  done: { dot: "bg-tag-green", text: "text-tag-green" },
+};
+
 export const TAGS = ["Design", "Development", "Research", "Testing", "Marketing"] as const;
 
 export const TAG_STYLES: Record<string, string> = {
