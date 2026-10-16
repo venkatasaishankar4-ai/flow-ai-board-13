@@ -70,7 +70,10 @@ function BoardPage() {
     const res = dialog.task
       ? await supabase.from("tasks").update({ ...payload, updated_at: new Date().toISOString() }).eq("id", dialog.task.id)
       : await supabase.from("tasks").insert({ ...payload, user_id: user.id, position: Date.now() });
-    if (res.error) return toast.error(res.error.message);
+    if (res.error) {
+      toast.error(res.error.message);
+      return;
+    }
     toast.success(dialog.task ? "Task updated" : "Task added");
     setDialog((s) => ({ ...s, open: false }));
     qc.invalidateQueries({ queryKey: ["tasks"] });
@@ -79,7 +82,10 @@ function BoardPage() {
   async function deleteTask() {
     if (!dialog.task) return;
     const { error } = await supabase.from("tasks").delete().eq("id", dialog.task.id);
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     setDialog((s) => ({ ...s, open: false }));
     qc.invalidateQueries({ queryKey: ["tasks"] });
   }
@@ -216,7 +222,7 @@ function BoardPage() {
         initial={dialog.task}
         defaultStatus={dialog.status}
         onSave={saveTask}
-        onDelete={dialog.task ? deleteTask : undefined}
+        {...(dialog.task ? { onDelete: () => void deleteTask() } : {})}
       />
     </div>
   );

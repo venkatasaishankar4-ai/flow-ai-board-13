@@ -92,9 +92,16 @@ export const Route = createFileRoute("/api/chat")({
               due_date: z.string().nullable(),
             }),
             execute: async ({ id, ...rest }) => {
-              const patch: Record<string, unknown> = { updated_at: new Date().toISOString() };
-              for (const [k, v] of Object.entries(rest)) if (v !== null) patch[k] = v;
-              if (rest.status) patch.position = Date.now();
+              const patch: Database["public"]["Tables"]["tasks"]["Update"] = { updated_at: new Date().toISOString() };
+              if (rest.title !== null) patch.title = rest.title;
+              if (rest.description !== null) patch.description = rest.description;
+              if (rest.tag !== null) patch.tag = rest.tag;
+              if (rest.priority !== null) patch.priority = rest.priority;
+              if (rest.due_date !== null) patch.due_date = rest.due_date;
+              if (rest.status !== null) {
+                patch.status = rest.status;
+                patch.position = Date.now();
+              }
               const { data, error } = await db.from("tasks").update(patch).eq("id", id).select("id,title,status").single();
               if (error) return { error: error.message };
               return { updated: data };

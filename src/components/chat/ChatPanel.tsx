@@ -13,8 +13,8 @@ const newThread = (): Thread => ({ id: crypto.randomUUID(), title: "New chat", m
 export function ChatPanel({ onClose }: { onClose: () => void }) {
   // Threads live only in this session (not saved), per the user's choice.
   const [threads, setThreads] = useState<Thread[]>(() => [newThread()]);
-  const [activeId, setActiveId] = useState(threads[0].id);
-  const active = threads.find((t) => t.id === activeId)!;
+  const [activeId, setActiveId] = useState(() => threads[0]!.id);
+  const active = threads.find((t) => t.id === activeId) ?? threads[0]!;
 
   const save = (id: string, messages: UIMessage[]) =>
     setThreads((ts) =>
