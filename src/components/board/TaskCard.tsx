@@ -1,10 +1,10 @@
 import { CalendarDays, Signal } from "lucide-react";
 import { tagStyle, type Task } from "@/lib/tasks";
 
-const PRIORITY: Record<string, string> = {
-  low: "text-muted-foreground",
-  medium: "text-tag-amber",
-  high: "text-primary",
+const PRIORITY: Record<string, { label: string; bar: string | null }> = {
+  low: { label: "text-tag-blue", bar: null },
+  medium: { label: "text-tag-orange", bar: "bg-tag-orange" },
+  high: { label: "text-destructive", bar: "bg-destructive" },
 };
 
 export function TaskCard({
