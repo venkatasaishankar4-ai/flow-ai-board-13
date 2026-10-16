@@ -2,14 +2,13 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
-import { LayoutGrid, LogOut, Plus, Search, Sparkles as _unused, Bot } from "lucide-react";
+import { LayoutGrid, LogOut, Plus, Search, Bot } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { COLUMNS, tasksQuery, type Status, type Task } from "@/lib/tasks";
 import { Logo } from "@/components/Logo";
 import { TaskCard } from "@/components/board/TaskCard";
 import { TaskDialog, type TaskDraft } from "@/components/board/TaskDialog";
 import { ChatPanel } from "@/components/chat/ChatPanel";
-void _unused;
 
 export const Route = createFileRoute("/_authenticated/board")({
   head: () => ({
